@@ -19,8 +19,8 @@ function StatsSection({ activeOKRs, completedOKRs }) {
     <div className="stats-section">
       <div className="stats-grid">
         <div className="stat-card">
-          <div className="stat-icon">
-            <i className="fas fa-target"></i>
+          <div className="stat-icon active">
+            <i className="fas fa-bullseye"></i>
           </div>
           <div className="stat-content">
             <div className="stat-number">{activeOKRs.length}</div>

@@ -405,6 +405,11 @@
     flex-shrink: 0;
 }
 
+.stat-icon.active {
+    background: var(--primary-100);
+    color: var(--primary-600);
+}
+
 .stat-icon.completed {
     background: var(--success-100);
     color: var(--success-600);
@@ -416,6 +421,11 @@
 }
 
 [data-theme="dark"] .stat-icon {
+    background: var(--primary-900);
+    color: var(--primary-400);
+}
+
+[data-theme="dark"] .stat-icon.active {
     background: var(--primary-900);
     color: var(--primary-400);
 }
