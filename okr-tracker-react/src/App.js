@@ -56,6 +56,7 @@ function App() {
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         setUser(null);
+        window.location.reload();
     };
 
     return (
