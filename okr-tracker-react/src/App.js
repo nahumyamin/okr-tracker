@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import OKRPage from './components/OKRPage';
+import AboutPage from './components/AboutPage';
 import LearnMoreModal from './components/LearnMoreModal';
 import AuthModal from './components/AuthModal';
 import Navigation from './components/Navigation';
@@ -81,6 +82,7 @@ function App() {
                             } 
                         />
                         <Route path="/okrs" element={<OKRPage />} />
+                        <Route path="/about" element={<AboutPage />} />
                     </Routes>
                 </main>
 
@@ -94,6 +96,7 @@ function App() {
                         onAuthSuccess={(user) => {
                             setUser(user);
                             setShowAuthModal(false);
+                            window.location.reload();
                         }}
                     />
                 )}

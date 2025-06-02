@@ -43,8 +43,14 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
               to="/okrs" 
               className={`nav-link ${location.pathname === '/okrs' ? 'active' : ''}`}
             >
-              <i className="fas fa-clipboard-list"></i>
               My OKRs
+            </Link>
+            
+            <Link 
+              to="/about" 
+              className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+            >
+              About
             </Link>
             
             <button

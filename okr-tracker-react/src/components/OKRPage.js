@@ -254,6 +254,7 @@ function OKRPage() {
                         onAuthSuccess={(user) => {
                             setUser(user);
                             setShowAuthModal(false);
+                            window.location.reload();
                         }}
                     />
                 )}
