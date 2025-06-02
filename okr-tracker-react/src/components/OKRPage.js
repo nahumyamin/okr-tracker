@@ -17,6 +17,7 @@ function OKRPage() {
     const [showCompletionOverlay, setShowCompletionOverlay] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [okrToDelete, setOkrToDelete] = useState(null);
+    const [editingOKR, setEditingOKR] = useState(null);
     const [completedOKRTitle, setCompletedOKRTitle] = useState('');
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -204,46 +205,42 @@ function OKRPage() {
 
     if (isLoading) {
         return (
-            <div className="app">
-                <div className="container" style={{ padding: '2rem', textAlign: 'center' }}>
-                    <div>Loading...</div>
-                </div>
+            <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <div>Loading...</div>
             </div>
         );
     }
 
     if (!user) {
         return (
-            <div className="app">
-                <div className="container okr-page-container">
-                    <div className="content-layout">
-                        <Guide 
-                            onCreateOKR={() => setShowAuthModal(true)} 
-                            onLearnMore={() => setShowLearnMoreModal(true)}
-                        />
-                        <div className="okr-section">
-                            <div className="okr-header">
-                                <h2>My OKRs</h2>
-                                <button 
-                                    className="btn btn-primary"
-                                    onClick={() => setShowAuthModal(true)}
-                                >
-                                    <i className="fas fa-plus"></i>
-                                    Create OKR
-                                </button>
-                            </div>
-                            <div className="empty-state">
-                                <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
-                                <h3>Ready to set your first OKR?</h3>
-                                <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
-                                <button 
-                                    className="btn btn-primary btn-lg"
-                                    onClick={() => setShowAuthModal(true)}
-                                >
-                                    <i className="fas fa-plus"></i>
-                                    Get Started
-                                </button>
-                            </div>
+            <div className="okr-page-container">
+                <div className="content-layout">
+                    <Guide 
+                        onCreateOKR={() => setShowAuthModal(true)} 
+                        onLearnMore={() => setShowLearnMoreModal(true)}
+                    />
+                    <div className="okr-section">
+                        <div className="okr-header">
+                            <h2>My OKRs</h2>
+                            <button 
+                                className="btn btn-primary"
+                                onClick={() => setShowAuthModal(true)}
+                            >
+                                <i className="fas fa-plus"></i>
+                                Create OKR
+                            </button>
+                        </div>
+                        <div className="empty-state">
+                            <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
+                            <h3>Ready to set your first OKR?</h3>
+                            <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
+                            <button 
+                                className="btn btn-primary btn-lg"
+                                onClick={() => setShowAuthModal(true)}
+                            >
+                                <i className="fas fa-plus"></i>
+                                Get Started
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -386,6 +383,13 @@ function OKRPage() {
                                                     </button>
                                                 )}
                                                 <button 
+                                                    className="btn-text"
+                                                    onClick={() => setEditingOKR(okr)}
+                                                >
+                                                    <i className="fas fa-edit"></i>
+                                                    Edit OKR
+                                                </button>
+                                                <button 
                                                     className="btn-text btn-text-danger"
                                                     onClick={() => {
                                                         setOkrToDelete(okr.id);
@@ -453,11 +457,16 @@ function OKRPage() {
                 </div>
             )}
 
-            {showCreateModal && (
+            {(showCreateModal || editingOKR) && (
                 <CreateOKRModal 
-                    onClose={() => setShowCreateModal(false)}
+                    editingOKR={editingOKR}
+                    onClose={() => {
+                        setShowCreateModal(false);
+                        setEditingOKR(null);
+                    }}
                     onOKRCreated={() => {
                         setShowCreateModal(false);
+                        setEditingOKR(null);
                         loadOKRs();
                     }}
                     user={user}
@@ -491,4 +500,4 @@ function OKRPage() {
     );
 }
 
-export default OKRPage; 
+export default OKRPage;

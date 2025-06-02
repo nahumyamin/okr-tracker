@@ -126,7 +126,7 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
 
           {/* Mobile Hamburger Button */}
           <button 
-            className="mobile-menu-toggle"
+            className={`mobile-menu-toggle ${mobileMenuOpen ? 'menu-open' : ''}`}
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
@@ -148,13 +148,6 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
                 <i className="fas fa-bullseye"></i>
                 OKR Tracker
               </Link>
-              <button 
-                className="mobile-menu-close"
-                onClick={toggleMobileMenu}
-                aria-label="Close mobile menu"
-              >
-                <i className="fas fa-times"></i>
-              </button>
             </div>
             
             <div className="mobile-menu-items">

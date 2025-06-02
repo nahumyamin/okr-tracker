@@ -6,12 +6,12 @@ function Guide({ onCreateOKR, onLearnMore }) {
 
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
+      const mobile = window.innerWidth <= 1024; // Include tablet as mobile
       setIsMobile(mobile);
-      if (!mobile) {
-        setIsExpanded(true); // Always expanded on desktop
+      if (mobile) {
+        setIsExpanded(false); // Collapsed by default on mobile/tablet
       } else {
-        setIsExpanded(false); // Collapsed by default on mobile
+        setIsExpanded(true); // Always expanded on desktop
       }
     };
 

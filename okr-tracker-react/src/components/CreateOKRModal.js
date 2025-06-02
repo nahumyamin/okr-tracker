@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 
-function CreateOKRModal({ onClose, onOKRCreated, user }) {
+function CreateOKRModal({ editingOKR, onClose, onOKRCreated, user }) {
   const [objective, setObjective] = useState('');
   const [keyResults, setKeyResults] = useState([
     {
@@ -13,6 +13,36 @@ function CreateOKRModal({ onClose, onOKRCreated, user }) {
   ]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Initialize form with editing data
+  useEffect(() => {
+    if (editingOKR) {
+      setObjective(editingOKR.objective || '');
+      setKeyResults(editingOKR.key_results && editingOKR.key_results.length > 0 ?
+        editingOKR.key_results.map(kr => ({
+          type: kr.type || 'percentage',
+          description: kr.text || '',
+          milestones: kr.milestones || [],
+          progress: kr.progress || 0
+        })) :
+        [{
+          type: 'percentage',
+          description: '',
+          milestones: [],
+          progress: 0
+        }]
+      );
+    } else {
+      // Reset form for creating new OKR
+      setObjective('');
+      setKeyResults([{
+        type: 'percentage',
+        description: '',
+        milestones: [],
+        progress: 0
+      }]);
+    }
+  }, [editingOKR]);
 
   const showError = (field, message) => {
     setErrors(prev => ({ ...prev, [field]: message }));
@@ -149,20 +179,33 @@ function CreateOKRModal({ onClose, onOKRCreated, user }) {
       const okrData = {
         objective: objective.trim(),
         key_results: processedKeyResults,
-        user_id: user.id,
-        completed: false
+        updated_at: new Date().toISOString()
       };
 
-      const { error } = await supabase
-        .from('okrs')
-        .insert([okrData]);
+      if (editingOKR) {
+        // Update existing OKR
+        const { error } = await supabase
+          .from('okrs')
+          .update(okrData)
+          .eq('id', editingOKR.id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Create new OKR
+        okrData.user_id = user.id;
+        okrData.completed = false;
+
+        const { error } = await supabase
+          .from('okrs')
+          .insert([okrData]);
+
+        if (error) throw error;
+      }
 
       onOKRCreated();
     } catch (error) {
-      console.error('Error creating OKR:', error);
-      showError('submit', 'Failed to create OKR. Please try again.');
+      console.error(`Error ${editingOKR ? 'updating' : 'creating'} OKR:`, error);
+      showError('submit', `Failed to ${editingOKR ? 'update' : 'create'} OKR. Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -173,8 +216,8 @@ function CreateOKRModal({ onClose, onOKRCreated, user }) {
       <div className="modal-content create-okr-modal">
         <div className="modal-header">
           <h2>
-            <i className="fas fa-plus-circle"></i>
-            Create New OKR
+            <i className={`fas ${editingOKR ? 'fa-edit' : 'fa-plus-circle'}`}></i>
+            {editingOKR ? 'Edit OKR' : 'Create New OKR'}
           </h2>
           <button className="btn btn-icon" onClick={onClose}>
             <i className="fas fa-times"></i>
@@ -302,12 +345,12 @@ function CreateOKRModal({ onClose, onOKRCreated, user }) {
               {loading ? (
                 <>
                   <i className="fas fa-spinner fa-spin"></i>
-                  Creating...
+                  {editingOKR ? 'Updating...' : 'Creating...'}
                 </>
               ) : (
                 <>
                   <i className="fas fa-save"></i>
-                  Create OKR
+                  {editingOKR ? 'Update OKR' : 'Create OKR'}
                 </>
               )}
             </button>

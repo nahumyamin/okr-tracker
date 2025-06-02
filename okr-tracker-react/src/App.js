@@ -72,20 +72,32 @@ function App() {
                 />
                 
                 <main className="main-content">
-                    <div className="container">
-                        <Routes>
-                            <Route 
-                                path="/" 
-                                element={
-                                    <HomePage 
-                                        onLearnMore={() => setShowLearnMoreModal(true)}
-                                    />
-                                } 
-                            />
-                            <Route path="/okrs" element={<OKRPage />} />
-                            <Route path="/about" element={<AboutPage />} />
-                        </Routes>
-                    </div>
+                    <Routes>
+                        <Route 
+                            path="/" 
+                            element={
+                                <HomePage 
+                                    onLearnMore={() => setShowLearnMoreModal(true)}
+                                />
+                            } 
+                        />
+                        <Route 
+                            path="/okrs" 
+                            element={
+                                <div className="container">
+                                    <OKRPage />
+                                </div>
+                            } 
+                        />
+                        <Route 
+                            path="/about" 
+                            element={
+                                <div className="container">
+                                    <AboutPage />
+                                </div>
+                            } 
+                        />
+                    </Routes>
                 </main>
 
                 {showLearnMoreModal && (

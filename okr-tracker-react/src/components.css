@@ -20,9 +20,11 @@ html, body {
 .hero {
     position: relative;
     padding: var(--space-16) 0;
-    overflow: hidden;
     background: linear-gradient(135deg, var(--primary-100), var(--primary-50));
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    box-sizing: border-box;
 }
 
 /* Full-screen hero for home page */
@@ -39,7 +41,11 @@ html, body {
 
 /* OKR Page specific styles */
 .okr-page-container {
-    padding-bottom: var(--space-8);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
 }
 
 /* Navigation brand icon color */
@@ -86,6 +92,53 @@ html, body {
         transparent 70%,
         transparent 100%
     );
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes circleScale1 {
+    0%, 100% {
+        transform: scale(1) translate(0, 0);
+    }
+    50% {
+        transform: scale(1.2) translate(20px, -10px);
+    }
+}
+
+@keyframes circleScale2 {
+    0%, 100% {
+        transform: scale(1) translate(0, 0);
+    }
+    50% {
+        transform: scale(0.8) translate(-15px, 15px);
+    }
+}
+
+@keyframes circleScale3 {
+    0%, 100% {
+        transform: scale(1) translate(0, 0);
+    }
+    50% {
+        transform: scale(1.1) translate(10px, -25px);
+    }
 }
 
 @keyframes heroShimmer {
@@ -158,11 +211,11 @@ html, body {
 /* Animated Background Shapes - Lava Lamp Effect */
 .hero::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     opacity: 0.15;
     z-index: 1;
     background: 
@@ -179,11 +232,11 @@ html, body {
 
 .hero::after {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     opacity: 0.12;
     z-index: 1;
     background: 
@@ -221,6 +274,8 @@ html, body {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-16);
     align-items: center;
+    margin: 0 auto;
+    padding: 0 var(--space-8);
 }
 
 .hero-text {
@@ -270,18 +325,65 @@ html, body {
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
 }
 
-/* Content Layout */
+/* Hero Responsive Layout */
+@media (max-width: 768px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+        text-align: center;
+        padding: 0 var(--space-4);
+    }
+    
+    .hero-image {
+        order: -1;
+        margin-bottom: var(--space-4);
+    }
+    
+    .hero-text {
+        max-width: 100%;
+        order: 1;
+    }
+    
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-text p {
+        font-size: 1.125rem;
+    }
+    
+    .hero-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content {
+        padding: 0 var(--space-3);
+    }
+    
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-text p {
+        font-size: 1rem;
+    }
+}
+
+/* Content Layout - Ensuring proper alignment */
 .content-layout {
     display: grid;
     grid-template-columns: 3fr 9fr;
     gap: var(--space-8);
-    margin: var(--space-8) 0;
+    margin: 0;
     flex: 1;
     width: 100%;
     max-width: 100%;
+    align-items: start;
 }
 
-/* Guide Component */
+/* Guide Component - Perfect top alignment */
 .guide {
     background-color: var(--surface);
     border-radius: var(--radius-xl);
@@ -289,11 +391,13 @@ html, body {
     border: 1px solid var(--border);
     height: fit-content;
     position: sticky;
-    top: calc(64px + var(--space-4));
+    top: 0;
     width: 100%;
     max-width: 100%;
+    align-self: start;
 }
 
+/* Guide Header - Ensuring perfect alignment */
 .guide-header {
     margin-bottom: var(--space-6);
     display: flex;
@@ -308,6 +412,8 @@ html, body {
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--text-primary);
+    margin: 0;
+    line-height: 1.5;
 }
 
 .guide-header h3 i {
@@ -322,6 +428,9 @@ html, body {
     padding: var(--space-2);
     border-radius: var(--radius-md);
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .guide-toggle:hover {
@@ -400,7 +509,7 @@ html, body {
     width: 100%;
 }
 
-/* OKR Section */
+/* OKR Section - Fixed positioning and spacing */
 .okr-section {
     background-color: var(--surface);
     border-radius: var(--radius-xl);
@@ -410,16 +519,21 @@ html, body {
     position: relative;
     width: 100%;
     max-width: 100%;
+    margin-top: 0;
 }
 
-/* OKR Main Content Container */
+/* OKR Main Content Container - Fixed alignment */
 .okr-main-content {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+    width: 100%;
+    max-width: 100%;
+    align-self: start;
+    margin-top: 0;
 }
 
-/* Stats Section */
+/* Stats Section - Ensuring proper spacing */
 .stats-section {
     background-color: var(--surface);
     border-radius: var(--radius-xl);
@@ -427,6 +541,8 @@ html, body {
     border: 1px solid var(--border);
     width: 100%;
     max-width: 100%;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .stats-grid {
@@ -542,7 +658,7 @@ html, body {
 /* Responsive Stats */
 @media (max-width: 768px) {
     .stats-grid {
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
         gap: var(--space-3);
     }
     
@@ -867,16 +983,61 @@ html, body {
     color: var(--text-primary);
 }
 
-/* Completed OKRs Section */
-.completed-okrs-section {
-    background-color: var(--surface);
-    border-radius: var(--radius-xl);
+/* Empty State - Desktop styling with proper padding */
+.empty-state {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-8) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.empty-state img {
+    width: 200px;
+    height: auto;
+    animation: float 6s infinite ease-in-out;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Completed OKRs Section - Back to working grid */
+.completed-okrs-layout {
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    gap: var(--space-8);
+    margin: var(--space-8) 0 0 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.completed-okrs-layout .completed-okrs-section {
+    margin-top: 0;
     padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    background-color: var(--surface);
     border: 1px solid var(--border);
     min-height: auto;
     position: relative;
 }
 
+/* Completed OKRs Section Content */
 .completed-section-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -971,976 +1132,6 @@ html, body {
 
 .completed-delete-btn:hover {
     opacity: 1;
-}
-
-/* Empty State */
-.empty-state {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
-    padding: var(--space-8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-6);
-}
-
-.empty-state img {
-    width: 200px;
-    height: auto;
-    animation: float 6s infinite ease-in-out;
-}
-
-.empty-state h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.empty-state p {
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-/* Auth Tabs */
-.auth-tabs {
-    display: flex;
-    margin-bottom: var(--space-6);
-    border-radius: var(--radius-lg);
-    background: var(--neutral-100);
-    padding: var(--space-1);
-}
-
-[data-theme="dark"] .auth-tabs {
-    background: var(--neutral-800);
-}
-
-.kr-type-option {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3);
-    border: 1px solid var(--neutral-300);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.kr-type-option:hover {
-    border-color: var(--primary-400);
-    color: var(--primary-600);
-    background: var(--primary-25);
-}
-
-[data-theme="dark"] .kr-type-option:hover {
-    border-color: var(--primary-400);
-    color: var(--primary-400);
-}
-
-.kr-type-option.active {
-    background: var(--primary-100);
-    border-color: var(--primary-300);
-    color: var(--primary-700);
-    font-weight: 600;
-}
-
-[data-theme="dark"] .kr-type-option.active {
-    background: var(--neutral-700);
-    border-color: var(--neutral-600);
-    color: var(--text-primary);
-}
-
-.kr-type-option.active:hover {
-    background: var(--primary-150);
-    border-color: var(--primary-400);
-    color: var(--primary-800);
-}
-
-[data-theme="dark"] .kr-type-option.active:hover {
-    background: var(--neutral-600);
-    border-color: var(--neutral-500);
-}
-
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
-    z-index: 100;
-    animation: fadeIn 0.3s ease-out;
-    box-sizing: border-box;
-}
-
-.modal-content {
-    background: var(--surface);
-    border-radius: 12px;
-    width: 100%;
-    max-width: 800px;
-    height: 650px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-lg);
-    animation: slideIn 0.3s var(--ease-out);
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-}
-
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-4) var(--space-6);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    flex-shrink: 0;
-    height: 80px;
-}
-
-.modal-header h2 {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: 1.25rem;
-    margin: 0;
-}
-
-.modal-header h2 i {
-    color: var(--primary-500);
-}
-
-.modal-body {
-    padding: var(--space-6);
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1;
-    min-height: 0;
-    height: calc(650px - 80px - 70px);
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-6);
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    flex-shrink: 0;
-    height: 70px;
-}
-
-.modal-footer .btn {
-    padding: var(--space-2) var(--space-4);
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.modal-close {
-    width: 36px;
-    height: 36px;
-    background: var(--neutral-100);
-    border: 1px solid var(--neutral-200);
-    border-radius: var(--radius-full);
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.125rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.modal-close:hover {
-    background: var(--neutral-200);
-    border-color: var(--neutral-300);
-    color: var(--text-primary);
-    transform: scale(1.05);
-}
-
-[data-theme="dark"] .modal-close {
-    background: var(--neutral-800);
-    border-color: var(--neutral-700);
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .modal-close:hover {
-    background: var(--neutral-700);
-    border-color: var(--neutral-600);
-    color: var(--text-primary);
-}
-
-/* Auth Modal Styles */
-.auth-modal-content {
-    max-width: 440px;
-    padding: 0;
-    height: auto;
-    min-height: auto;
-}
-
-.auth-modal-header {
-    padding: var(--space-6) var(--space-6) var(--space-3) var(--space-6);
-    border-bottom: none;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.auth-header-content {
-    flex: 1;
-    margin-right: var(--space-4);
-}
-
-.auth-icon {
-    margin-bottom: var(--space-4);
-}
-
-.auth-icon i {
-    font-size: 2rem;
-    color: var(--primary-500);
-    background: var(--primary-50);
-    padding: var(--space-3);
-    border-radius: var(--radius-full);
-    width: 48px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-[data-theme="dark"] .auth-icon i {
-    background: var(--primary-900);
-    color: var(--primary-400);
-}
-
-.auth-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0 var(--space-1) 0;
-    line-height: 1.3;
-}
-
-.auth-subtitle {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin: 0;
-    line-height: 1.4;
-    text-align: left;
-}
-
-.auth-modal-body {
-    padding: var(--space-3) var(--space-6) var(--space-6) var(--space-6);
-    height: auto;
-}
-
-.auth-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.auth-form .form-group {
-    margin-bottom: var(--space-2);
-}
-
-.auth-form .form-group:last-of-type {
-    margin-bottom: var(--space-4);
-}
-
-.auth-form .form-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--space-2);
-    margin-top: 0;
-    display: block;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
-}
-
-.auth-form .form-input {
-    font-size: 1rem;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    color: var(--text-primary);
-    width: 100%;
-}
-
-.auth-form .form-input:focus {
-    border-color: var(--primary-500);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-    outline: none;
-}
-
-[data-theme="dark"] .auth-form .form-input:focus {
-    border-color: var(--primary-400);
-    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
-}
-
-.auth-submit-btn {
-    width: 100%;
-    margin-bottom: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: var(--radius-lg);
-}
-
-.auth-error {
-    color: var(--danger-500);
-    background: var(--danger-50);
-    border: 1px solid var(--danger-200);
-    border-radius: var(--radius-lg);
-    padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-3);
-    font-size: 0.875rem;
-}
-
-[data-theme="dark"] .auth-error {
-    background: var(--danger-900);
-    border-color: var(--danger-700);
-    color: var(--danger-300);
-}
-
-.auth-message {
-    color: var(--success-600);
-    background: var(--success-50);
-    border: 1px solid var(--success-200);
-    border-radius: var(--radius-lg);
-    padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-3);
-    font-size: 0.875rem;
-}
-
-[data-theme="dark"] .auth-message {
-    background: var(--success-900);
-    border-color: var(--success-700);
-    color: var(--success-300);
-}
-
-.auth-toggle {
-    text-align: center;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-top: var(--space-1);
-}
-
-.auth-toggle-link {
-    color: var(--primary-600);
-    text-decoration: none;
-    font-weight: 500;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    font-size: inherit;
-}
-
-.auth-toggle-link:hover {
-    color: var(--primary-700);
-    text-decoration: underline;
-}
-
-[data-theme="dark"] .auth-toggle-link {
-    color: var(--primary-400);
-}
-
-[data-theme="dark"] .auth-toggle-link:hover {
-    color: var(--primary-300);
-}
-
-/* Form Styles */
-.form-group {
-    margin-bottom: var(--space-4);
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.form-input {
-    width: 100%;
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    font-size: 1rem;
-    transition: all 0.2s ease;
-    background: var(--surface);
-    color: var(--text-primary);
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--primary-500);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-[data-theme="dark"] .form-input:focus {
-    border-color: var(--primary-400);
-    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
-}
-
-/* Learn More Modal Content */
-.learn-more-content h3 {
-    color: var(--text-primary);
-    margin-bottom: var(--space-3);
-    margin-top: var(--space-6);
-}
-
-.learn-more-content h3:first-child {
-    margin-top: 0;
-}
-
-.learn-more-content p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--space-4);
-}
-
-.learn-more-content ul {
-    margin-bottom: var(--space-4);
-    padding-left: var(--space-6);
-}
-
-.learn-more-content li {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--space-2);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-@keyframes fadeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-/* Completion Celebration */
-.completion-celebration-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.completion-celebration {
-    text-align: center;
-    color: white;
-    animation: slideIn 0.6s var(--ease-out);
-}
-
-.trophy-icon {
-    font-size: 4rem;
-    color: #FFD700;
-    animation: trophyBounce 0.8s ease-out;
-    margin-bottom: var(--space-4);
-}
-
-.completion-celebration h3 {
-    font-size: 2rem;
-    margin-bottom: var(--space-2);
-    animation: textSlideUp 0.8s ease-out 0.2s backwards;
-}
-
-.completion-celebration p {
-    font-size: 1.25rem;
-    opacity: 0.9;
-    animation: textSlideUp 0.8s ease-out 0.4s backwards;
-}
-
-@keyframes trophyBounce {
-    0% {
-        transform: scale(0) rotate(0deg);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.2) rotate(180deg);
-    }
-    100% {
-        transform: scale(1) rotate(360deg);
-        opacity: 1;
-    }
-}
-
-@keyframes textSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: var(--space-8);
-        text-align: center;
-    }
-
-    .hero-text {
-        order: 2;
-    }
-
-    .hero-text h1 {
-        font-size: 3rem;
-    }
-
-    .hero-actions {
-        justify-content: center;
-    }
-
-    .hero-image {
-        order: 1;
-    }
-
-    .content-layout,
-    .completed-okrs-layout {
-        grid-template-columns: 1fr;
-        gap: var(--space-6);
-    }
-}
-
-@media (max-width: 768px) {
-    .hero {
-        padding: var(--space-6) 0;
-    }
-
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-text p {
-        font-size: 1.125rem;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn-lg {
-        width: 100%;
-        max-width: 280px;
-    }
-
-    .content-layout {
-        margin: var(--space-6) 0;
-        display: block;
-        gap: 0;
-    }
-
-    .guide {
-        position: static;
-        margin-bottom: var(--space-6);
-        padding: var(--space-4);
-    }
-
-    .okr-section {
-        padding: var(--space-6);
-        margin-top: 0;
-    }
-
-    .okr-item {
-        padding: var(--space-6);
-    }
-
-    .okr-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-4);
-    }
-
-    .modal-content {
-        max-width: 100%;
-        height: 550px;
-        margin: var(--space-2);
-    }
-    
-    .modal-header {
-        padding: var(--space-4);
-        height: 70px;
-    }
-    
-    .modal-body {
-        padding: var(--space-4);
-        height: calc(550px - 70px - 60px);
-    }
-    
-    .modal-footer {
-        padding: var(--space-3) var(--space-4);
-        height: 60px;
-        flex-direction: column-reverse;
-        gap: var(--space-2);
-    }
-    
-    .modal-footer .btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .kr-type-selector {
-        flex-direction: column;
-    }
-    
-    .kr-header-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-3);
-    }
-    
-    .remove-kr-btn {
-        align-self: flex-end;
-        min-width: auto;
-        width: auto;
-        padding: var(--space-2);
-    }
-    
-    .milestone-input-group {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-2);
-    }
-    
-    .milestone-input-group .btn-icon {
-        width: auto;
-        height: auto;
-        padding: var(--space-2) var(--space-3);
-        align-self: flex-end;
-    }
-
-    .completed-okrs-layout {
-        display: block;
-        gap: 0;
-        margin: var(--space-4) 0;
-        width: 100vw;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .completed-okrs-layout > div:first-child {
-        display: none;
-    }
-
-    .completed-okrs-layout .completed-okrs-section {
-        margin-top: var(--space-4);
-        padding-top: var(--space-6);
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: var(--space-4);
-        padding-right: var(--space-4);
-        border-radius: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .completed-okrs-section {
-        padding: var(--space-6);
-        margin: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .hero-image img {
-        width: 80%;
-        max-width: 300px;
-    }
-}
-
-/* Key Result Container Styles */
-.kr-container {
-    background: var(--neutral-50);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-4);
-    margin-bottom: var(--space-4);
-}
-
-[data-theme="dark"] .kr-container {
-    background: var(--neutral-800);
-    border-color: var(--neutral-700);
-}
-
-.kr-header-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-4);
-    gap: var(--space-3);
-}
-
-.kr-type-selector {
-    display: flex;
-    gap: var(--space-2);
-    flex: 1;
-}
-
-.remove-kr-btn {
-    min-width: 32px;
-    height: 32px;
-    color: var(--danger-400);
-    border-color: var(--danger-200);
-    background: var(--danger-50);
-    flex-shrink: 0;
-}
-
-.remove-kr-btn:hover {
-    color: var(--danger-500);
-    border-color: var(--danger-300);
-    background: var(--danger-100);
-}
-
-.remove-kr-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-    color: var(--neutral-400);
-    border-color: var(--neutral-200);
-    background: var(--neutral-50);
-}
-
-.remove-kr-btn:disabled:hover {
-    color: var(--neutral-400);
-    border-color: var(--neutral-200);
-    background: var(--neutral-50);
-    transform: none;
-}
-
-.kr-type-option {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3);
-    border: 1px solid var(--neutral-300);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.kr-type-option:hover {
-    border-color: var(--primary-400);
-    color: var(--primary-600);
-    background: var(--primary-25);
-}
-
-[data-theme="dark"] .kr-type-option:hover {
-    border-color: var(--primary-400);
-    color: var(--primary-400);
-}
-
-.kr-type-option.active {
-    background: var(--primary-100);
-    border-color: var(--primary-300);
-    color: var(--primary-700);
-    font-weight: 600;
-}
-
-[data-theme="dark"] .kr-type-option.active {
-    background: var(--neutral-700);
-    border-color: var(--neutral-600);
-    color: var(--text-primary);
-}
-
-.kr-type-option.active:hover {
-    background: var(--primary-150);
-    border-color: var(--primary-400);
-    color: var(--primary-800);
-}
-
-[data-theme="dark"] .kr-type-option.active:hover {
-    background: var(--neutral-600);
-    border-color: var(--neutral-500);
-}
-
-/* Create Modal Specific KR Item Styles */
-.modal-content .kr-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    margin-bottom: var(--space-5);
-    transition: all 0.2s ease;
-}
-
-.modal-content .kr-item:last-child {
-    margin-bottom: var(--space-4);
-}
-
-.modal-content .kr-item:hover {
-    border-color: var(--primary-200);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.05);
-}
-
-[data-theme="dark"] .modal-content .kr-item {
-    background: var(--neutral-800);
-    border-color: var(--neutral-700);
-}
-
-[data-theme="dark"] .modal-content .kr-item:hover {
-    border-color: var(--primary-400);
-    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
-}
-
-/* Milestone Container Styles */
-.milestone-container {
-    margin-top: var(--space-4);
-    padding: var(--space-4);
-    background: var(--neutral-25);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-}
-
-[data-theme="dark"] .milestone-container {
-    background: var(--neutral-900);
-    border-color: var(--neutral-700);
-}
-
-.milestone-container label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: var(--space-3);
-}
-
-.milestone-input-group {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-3);
-}
-
-.milestone-input-group:last-of-type {
-    margin-bottom: var(--space-4);
-}
-
-.milestone-input-group .form-input {
-    flex: 1;
-    min-width: 0;
-}
-
-.milestone-input-group .btn-icon {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-}
-
-/* Form Group Improvements for Modal */
-.modal-content .form-group {
-    margin-bottom: var(--space-5);
-}
-
-.modal-content .form-group:last-child {
-    margin-bottom: 0;
-}
-
-.modal-content .form-group label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: var(--space-2);
-}
-
-/* Add Key Result Button Spacing Fix */
-.modal-content .add-kr-btn {
-    margin-top: var(--space-3);
-}
-
-/* Error Message Styling */
-.modal-content .error-message {
-    color: var(--danger-500);
-    font-size: 0.875rem;
-    margin-top: var(--space-2);
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-}
-
-.modal-content .error-message::before {
-    content: "⚠";
-    font-size: 1rem;
-}
-
-/* Completed OKRs Section - 9 columns layout */
-.completed-okrs-layout {
-    display: grid;
-    grid-template-columns: 3fr 9fr;
-    gap: var(--space-8);
-    margin: var(--space-4) 0 var(--space-8) 0;
-}
-
-.completed-okrs-layout .completed-okrs-section {
-    margin-top: 0;
-    padding-top: var(--space-6);
-    border-top: 2px solid var(--border);
 }
 
 /* Completion Celebration Overlay */
@@ -2260,12 +1451,248 @@ html, body {
 }
 
 /* Section Spacing */
-.modal-content .form-group {
+.modal-content:not(.auth-modal-content) .form-group {
     margin-bottom: var(--space-6);
 }
 
-.modal-content .form-group:last-child {
+.modal-content:not(.auth-modal-content) .form-group:last-child {
     margin-bottom: var(--space-4);
+}
+
+/* Desktop Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 600px;
+    height: 650px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Modal Header Improvements */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--border);
+    height: 80px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.modal-header h2 i {
+    color: var(--primary-500);
+    font-size: 1.125rem;
+}
+
+/* Modal Body Improvements */
+.modal-body {
+    flex: 1;
+    padding: var(--space-6);
+    overflow-y: auto;
+    height: auto;
+    margin: 0;
+    text-align: left;
+}
+
+/* Modal Footer Improvements */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border-top: 1px solid var(--border);
+    height: 70px;
+    flex-shrink: 0;
+    align-items: center;
+    margin: 0;
+}
+
+/* Modal animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* KR Container Styles */
+.kr-container {
+    background: var(--neutral-50);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+[data-theme="dark"] .kr-container {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+.kr-type-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: var(--space-3);
+}
+
+.kr-type-option:hover {
+    border-color: var(--primary-400);
+    background: var(--primary-50);
+}
+
+.kr-type-option.selected {
+    border-color: var(--primary-500);
+    background: var(--primary-100);
+}
+
+[data-theme="dark"] .kr-type-option {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+[data-theme="dark"] .kr-type-option:hover {
+    border-color: var(--primary-500);
+    background: var(--primary-900);
+}
+
+[data-theme="dark"] .kr-type-option.selected {
+    border-color: var(--primary-400);
+    background: var(--primary-900);
+}
+
+.remove-kr-btn {
+    background: var(--danger-100);
+    color: var(--danger-600);
+    border: 1px solid var(--danger-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-kr-btn:hover {
+    background: var(--danger-200);
+    color: var(--danger-700);
+}
+
+[data-theme="dark"] .remove-kr-btn {
+    background: var(--danger-900);
+    color: var(--danger-400);
+    border-color: var(--danger-800);
+}
+
+[data-theme="dark"] .remove-kr-btn:hover {
+    background: var(--danger-800);
+    color: var(--danger-300);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: var(--space-4);
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+[data-theme="dark"] .form-input:focus {
+    box-shadow: 0 0 0 3px var(--primary-900);
+}
+
+.form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Milestone Input Group */
+.milestone-input-group {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.milestone-input-group .form-input {
+    flex: 1;
+}
+
+.milestone-container {
+    margin-top: var(--space-4);
 }
 
 /* User Menu Dropdown */
@@ -2419,7 +1846,7 @@ html, body {
     .user-avatar {
         width: 36px;
         height: 36px;
-        font-size: 1rem;
+    font-size: 1rem;
     }
 }
 
@@ -2548,6 +1975,7 @@ html, body {
     color: var(--primary-300);
 }
 
+/* OKR Header - Perfect alignment */
 .okr-header {
     display: flex;
     justify-content: space-between;
@@ -2559,6 +1987,8 @@ html, body {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
+    margin: 0;
+    line-height: 1.5;
 }
 
 .okr-list {
@@ -2693,6 +2123,14 @@ html, body {
     cursor: pointer;
     padding: var(--space-2);
     z-index: 1001;
+    position: relative;
+}
+
+/* When mobile menu is open, fix the toggle button position */
+.mobile-menu-toggle.menu-open {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
 }
 
 .hamburger {
@@ -2710,7 +2148,7 @@ html, body {
     width: 100%;
     background: var(--text-primary);
     border-radius: 1px;
-    opacity: 1;
+        opacity: 1;
     left: 0;
     transform: rotate(0deg);
     transition: 0.25s ease-in-out;
@@ -2883,7 +2321,7 @@ html, body {
 
 .mobile-nav-button i {
     width: 20px;
-    text-align: center;
+        text-align: center;
     color: var(--text-secondary);
 }
 
@@ -2920,7 +2358,7 @@ html, body {
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
-    justify-content: center;
+        justify-content: center;
     color: var(--primary-600);
     font-size: 1.125rem;
     flex-shrink: 0;
@@ -3016,42 +2454,34 @@ html, body {
     
     /* Enhanced Mobile Layout using existing responsive rules */
     .content-layout {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: var(--space-4);
-        margin: var(--space-4) 0;
-        width: 100%;
-        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        margin: 0;
     }
-    
+
     .guide {
-        grid-column: 1 / -1;
         position: static;
-        margin-bottom: var(--space-4);
-        padding: var(--space-4);
-        width: 100%;
-        max-width: 100%;
+        margin-bottom: 0;
+        padding: var(--space-6);
     }
     
     .okr-main-content {
-        grid-column: 1 / -1;
-        width: 100%;
-        max-width: 100%;
+        order: 2;
     }
     
     .stats-section {
-        grid-column: 1 / -1;
-        padding: var(--space-4);
         width: 100%;
         max-width: 100%;
+        order: 2;
     }
-    
+
     .okr-section {
-        grid-column: 1 / -1;
+        width: 100%;
+        max-width: 100%;
         padding: var(--space-4);
         margin-top: 0;
-        width: 100%;
-        max-width: 100%;
+        order: 3;
     }
     
     /* Mobile Guide Collapsible */
@@ -3085,24 +2515,27 @@ html, body {
     
     /* Full Page Modal Behavior */
     .modal-overlay {
-        padding: 0;
+        padding: 0 !important;
+        margin: 0 !important;
     }
     
     .modal-overlay .modal-content {
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
     }
     
     .modal-header {
         padding: var(--space-4);
         height: auto;
         min-height: 70px;
+        position: relative;
     }
     
     .modal-body {
@@ -3115,30 +2548,40 @@ html, body {
         padding: var(--space-4);
         height: auto;
         min-height: 70px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        z-index: 1001;
     }
     
     /* Full Page Create OKR Modal */
     .modal-content.create-okr-modal {
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
     }
     
     .modal-content.create-okr-modal .modal-header {
         padding: var(--space-4);
         height: auto;
         min-height: 70px;
+        position: relative;
     }
     
     .modal-content.create-okr-modal .modal-body {
         padding: var(--space-4);
         height: calc(100vh - 140px);
         overflow-y: auto;
+        padding-bottom: 90px; /* Extra space for fixed footer */
     }
     
     .modal-content.create-okr-modal .modal-footer {
@@ -3146,6 +2589,39 @@ html, body {
         height: auto;
         min-height: 70px;
         gap: var(--space-3);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        z-index: 1001;
+    }
+    
+    /* Fix close button on mobile - keep it compact */
+    .modal-close {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        max-width: 36px !important;
+        max-height: 36px !important;
+        padding: var(--space-2) !important;
+        position: absolute !important;
+        top: var(--space-4) !important;
+        right: var(--space-4) !important;
+        z-index: 1002 !important;
+        border-radius: var(--radius-full) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* Override any button width rules for modal close */
+    .modal-content.create-okr-modal .modal-close {
+        width: 36px !important;
+        min-width: 36px !important;
+        max-width: 36px !important;
     }
     
     /* Enhanced Mobile UX */
@@ -3253,11 +2729,11 @@ html, body {
         margin: var(--space-4) 0;
         width: 100%;
     }
-    
+
     .completed-okrs-layout > div:first-child {
         display: none;
     }
-    
+
     .completed-okrs-layout .completed-okrs-section {
         margin-top: var(--space-4);
         padding: var(--space-4);
@@ -3269,7 +2745,7 @@ html, body {
     }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .mobile-menu-toggle {
         display: none;
     }
@@ -3283,7 +2759,7 @@ html, body {
         display: none;
     }
     
-    /* Ensure guide content is always visible on desktop */
+    /* Ensure guide content is always visible on desktop only */
     .guide-content,
     .guide-footer {
         max-height: none;
@@ -3294,6 +2770,83 @@ html, body {
 /* Hide mobile-only elements on desktop by default */
 .mobile-only {
     display: none;
+}
+
+/* Mobile and Tablet: Show guide toggle and enable collapsible behavior (≤1024px) */
+@media (max-width: 1024px) {
+    .guide-toggle.mobile-only {
+        display: flex !important;
+    }
+    
+    .mobile-only {
+        display: block;
+    }
+    
+    /* Adjust guide padding for collapsed state - reduce height and equal spacing */
+    .guide {
+        padding: var(--space-4) var(--space-6) var(--space-4) var(--space-6);
+    }
+    
+    /* Reduce header margin-bottom when collapsed to match new padding */
+    .guide-header {
+        margin-bottom: 0;
+    }
+    
+    /* Force collapsible behavior on mobile and tablet */
+    .guide-content {
+        max-height: 0 !important;
+        overflow: hidden !important;
+        transition: max-height 0.3s ease-out;
+    }
+    
+    .guide-content.expanded {
+        max-height: 500px !important;
+        margin-top: var(--space-4);
+    }
+    
+    .guide-footer {
+        max-height: 0 !important;
+        overflow: hidden !important;
+        transition: max-height 0.3s ease-out;
+        padding-top: 0 !important;
+        border-top: none !important;
+    }
+    
+    .guide-footer.expanded {
+        max-height: 100px !important;
+        padding-top: var(--space-4) !important;
+        border-top: 1px solid var(--border) !important;
+    }
+}
+
+/* Desktop only: Always expanded guide, no toggle (>1024px) */
+@media (min-width: 1025px) {
+    .mobile-menu-toggle {
+        display: none;
+    }
+    
+    .mobile-menu-overlay {
+        display: none;
+    }
+    
+    /* Hide mobile-only elements on desktop */
+    .mobile-only {
+        display: none !important;
+    }
+    
+    /* Override any collapsible behavior - always visible on desktop */
+    .guide-content,
+    .guide-footer {
+        max-height: none !important;
+        overflow: visible !important;
+        padding-top: var(--space-4) !important;
+        border-top: 1px solid var(--border) !important;
+    }
+    
+    .guide-footer {
+        border-top: 1px solid var(--border) !important;
+        padding-top: var(--space-4) !important;
+    }
 }
 
 /* Guide Header */
@@ -3350,10 +2903,16 @@ html, body {
     .guide {
         position: static;
         margin-bottom: var(--space-6);
+        padding: var(--space-6);
     }
     
     .okr-section {
         padding: var(--space-6);
+    }
+    
+    .completed-okrs-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
     }
 }
 
@@ -3363,12 +2922,8 @@ html, body {
         font-size: 4rem;
     }
     
-    .content-layout {
-        gap: var(--space-12);
-    }
-    
     .okr-section {
-        padding: var(--space-10);
+        padding: var(--space-8);
     }
 }
 
@@ -3392,4 +2947,772 @@ html, body {
     .nav-brand {
         font-size: 1rem;
     }
+}
+
+/* Mobile content layout - Updated for fixed grid */
+@media (max-width: 768px) {
+    .content-layout {
+    display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        margin: 0;
+    }
+
+    .guide {
+        position: static;
+        margin-bottom: 0;
+        padding: var(--space-6);
+    }
+
+    .okr-main-content {
+        order: 2;
+    }
+
+    .completed-okrs-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        margin: var(--space-6) 0 0 0;
+    }
+
+    .okr-page-container {
+        padding-top: var(--space-4);
+    }
+
+    .okr-section {
+        padding: var(--space-6);
+        min-height: auto;
+    }
+
+    .okr-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+    }
+
+    .okr-header h2 {
+    font-size: 1.25rem;
+    }
+}
+
+/* Missing Modal-Specific Styles */
+
+/* Error Message Styling */
+.error-message {
+    color: var(--danger-600);
+    font-size: 0.8125rem;
+    margin-top: var(--space-1);
+    font-weight: 500;
+}
+
+[data-theme="dark"] .error-message {
+    color: var(--danger-400);
+}
+
+/* Form Input Error State */
+.form-input.error {
+    border-color: var(--danger-500);
+    background: var(--danger-50);
+}
+
+.form-input.error:focus {
+    border-color: var(--danger-500);
+    box-shadow: 0 0 0 3px var(--danger-100);
+}
+
+[data-theme="dark"] .form-input.error {
+    background: var(--danger-900);
+    border-color: var(--danger-600);
+}
+
+[data-theme="dark"] .form-input.error:focus {
+    box-shadow: 0 0 0 3px var(--danger-800);
+}
+
+/* KR Header Controls */
+.kr-header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.kr-type-selector {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.kr-type-option.active {
+    border-color: var(--primary-500) !important;
+    background: var(--primary-100) !important;
+    color: var(--primary-700) !important;
+}
+
+[data-theme="dark"] .kr-type-option.active {
+    background: var(--primary-900) !important;
+    color: var(--primary-300) !important;
+    border-color: var(--primary-400) !important;
+}
+
+/* Danger Button Styling */
+.btn-danger {
+    background: var(--danger-500);
+    color: white;
+    border: 1px solid var(--danger-500);
+}
+
+.btn-danger:hover {
+    background: var(--danger-600);
+    border-color: var(--danger-600);
+}
+
+.btn-danger:disabled {
+    background: var(--neutral-300);
+    color: var(--neutral-500);
+    border-color: var(--neutral-300);
+    cursor: not-allowed;
+}
+
+[data-theme="dark"] .btn-danger:disabled {
+    background: var(--neutral-700);
+    color: var(--neutral-500);
+    border-color: var(--neutral-700);
+}
+
+/* Close Button Styling and Icon Buttons - FIXED */
+.btn-icon {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: var(--space-2);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.btn-icon:hover {
+    background: var(--neutral-100);
+    color: var(--text-primary);
+    border-color: var(--neutral-300);
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .btn-icon {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .btn-icon:hover {
+    background: var(--neutral-700);
+    color: var(--text-primary);
+    border-color: var(--neutral-600);
+}
+
+.btn-icon i {
+    font-size: 0.875rem;
+    color: inherit;
+}
+
+/* Modal Close Button */
+.modal-close {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: var(--space-2);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: var(--neutral-100);
+    color: var(--text-primary);
+    border-color: var(--neutral-300);
+        transform: scale(1.05);
+}
+
+[data-theme="dark"] .modal-close {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .modal-close:hover {
+    background: var(--neutral-700);
+    color: var(--text-primary);
+    border-color: var(--neutral-600);
+}
+
+.modal-close i {
+    font-size: 0.875rem;
+    color: inherit;
+}
+
+/* Icon Button Variants */
+.btn-icon.btn-danger {
+    background: var(--danger-500);
+    color: white;
+    border-color: var(--danger-500);
+}
+
+.btn-icon.btn-danger:hover {
+    background: var(--danger-600);
+    border-color: var(--danger-600);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-icon.btn-primary {
+    background: var(--primary-500);
+    color: white;
+    border-color: var(--primary-500);
+}
+
+.btn-icon.btn-primary:hover {
+    background: var(--primary-600);
+    border-color: var(--primary-600);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-icon.btn-secondary {
+    background: var(--neutral-100);
+    color: var(--text-primary);
+    border-color: var(--neutral-300);
+}
+
+.btn-icon.btn-secondary:hover {
+    background: var(--neutral-200);
+    border-color: var(--neutral-400);
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .btn-icon.btn-secondary {
+    background: var(--neutral-700);
+    color: var(--text-primary);
+    border-color: var(--neutral-600);
+}
+
+[data-theme="dark"] .btn-icon.btn-secondary:hover {
+    background: var(--neutral-600);
+    border-color: var(--neutral-500);
+}
+
+/* Form Group Spacing Fixes */
+.modal-content:not(.auth-modal-content) .modal-body .form-group {
+    margin-bottom: var(--space-6);
+}
+
+.modal-content:not(.auth-modal-content) .modal-body .form-group:last-child {
+    margin-bottom: var(--space-4);
+}
+
+.modal-content:not(.auth-modal-content) .modal-body .form-group:last-child {
+    margin-bottom: var(--space-4);
+}
+
+.modal-body .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-3);
+    margin-top: 0;
+}
+
+/* KR Container Spacing Fixes */
+.kr-container {
+    background: var(--neutral-50);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+[data-theme="dark"] .kr-container {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+/* KR Item Spacing Fixes */
+.kr-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.kr-item:last-child {
+    margin-bottom: var(--space-4);
+}
+
+[data-theme="dark"] .kr-item {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+/* Spinning animation for loading states */
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Enhanced button styles for better modal experience */
+.modal-footer .btn {
+    min-width: 120px;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.modal-footer .btn i {
+    font-size: 0.875rem;
+}
+
+/* Create OKR Modal specific height */
+.modal-content.create-okr-modal {
+    height: 845px;
+    max-height: 90vh;
+}
+
+.modal-content.create-okr-modal .modal-body {
+    height: calc(845px - 80px - 70px);
+    overflow-y: auto;
+}
+
+/* Learn More Modal - Auto height with proper padding */
+.modal-content:not(.create-okr-modal):not(.auth-modal-content) {
+    height: auto;
+    max-height: 90vh;
+}
+
+.modal-content:not(.create-okr-modal):not(.auth-modal-content) .modal-body {
+    padding: var(--space-6);
+    height: auto;
+    max-height: calc(90vh - 160px);
+}
+
+/* Learn More Modal - Restore proper padding */
+.modal-content:not(.create-okr-modal):not(.auth-modal-content) .modal-body {
+    padding: var(--space-6);
+}
+
+/* Learn More Modal Content Styling */
+.learn-more-content {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.learn-more-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--space-6) 0 var(--space-3) 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.learn-more-content h3:first-child {
+    margin-top: 0;
+}
+
+.learn-more-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+}
+
+.learn-more-content ul {
+    margin: 0 0 var(--space-4) 0;
+    padding-left: var(--space-6);
+    list-style-type: disc;
+    color: var(--text-secondary);
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.learn-more-content li {
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
+    padding-left: var(--space-1);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.learn-more-content li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Example OKR box styling improvements */
+.learn-more-content .example-okr {
+    background: var(--neutral-100);
+    border: 1px solid var(--border);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-top: var(--space-4);
+}
+
+[data-theme="dark"] .learn-more-content .example-okr {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+/* Auth Modal Specific Styles */
+.auth-modal-content {
+    max-width: 420px;
+    height: auto;
+    min-height: auto;
+}
+
+.auth-modal-header {
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-6) var(--space-6) var(--space-6) var(--space-6);
+}
+
+.auth-header-content {
+    flex: 1;
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2) 0;
+    text-align: center;
+}
+
+.auth-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.auth-modal-body {
+    padding: var(--space-6);
+    height: auto;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.auth-error {
+    color: var(--danger-600);
+    background: var(--danger-50);
+    border: 1px solid var(--danger-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+[data-theme="dark"] .auth-error {
+    color: var(--danger-400);
+    background: var(--danger-900);
+    border-color: var(--danger-800);
+}
+
+.auth-message {
+    color: var(--success-600);
+    background: var(--success-50);
+    border: 1px solid var(--success-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+[data-theme="dark"] .auth-message {
+    color: var(--success-400);
+    background: var(--success-900);
+    border-color: var(--success-800);
+}
+
+.auth-submit-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-2);
+}
+
+.auth-toggle {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-2);
+}
+
+.auth-toggle-link {
+    background: none;
+    border: none;
+    color: var(--primary-600);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: inherit;
+}
+
+.auth-toggle-link:hover {
+    color: var(--primary-700);
+}
+
+[data-theme="dark"] .auth-toggle-link {
+    color: var(--primary-400);
+}
+
+[data-theme="dark"] .auth-toggle-link:hover {
+    color: var(--primary-300);
+}
+
+/* Modal Padding and Alignment Fixes */
+
+/* Improved Modal Header Alignment */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--border);
+    height: 80px;
+    flex-shrink: 0;
+    position: relative;
+    text-align: left;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: left;
+}
+
+/* Auth Modal Header Override */
+.auth-modal-header {
+    text-align: center !important;
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-6) var(--space-6) var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.auth-modal-header .auth-header-content {
+    flex: 1;
+    text-align: center;
+    width: 100%;
+}
+
+/* Form Alignment and Spacing */
+.modal-body {
+    flex: 1;
+    padding: var(--space-6);
+    overflow-y: auto;
+    height: auto;
+    margin: 0;
+    text-align: left;
+}
+
+.auth-modal-body {
+    padding: var(--space-6);
+    height: auto;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: var(--space-5);
+    text-align: left;
+}
+
+.form-group:last-child {
+    margin-bottom: var(--space-3);
+}
+
+.form-group label,
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-3);
+    margin-top: 0;
+    text-align: left;
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* KR Section Alignment */
+.kr-header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+    text-align: left;
+}
+
+.kr-type-selector {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.kr-type-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+/* Modal Footer Alignment */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border-top: 1px solid var(--border);
+    height: 70px;
+    flex-shrink: 0;
+    align-items: center;
+    margin: 0;
+    text-align: right;
+}
+
+.modal-footer .btn {
+    min-width: 120px;
+    justify-content: center;
+    gap: var(--space-2);
+    text-align: center;
+}
+
+/* Auth Form Specific Alignment */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: left;
+    width: 100%;
+}
+
+.auth-toggle {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-3);
+}
+
+.auth-submit-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-3);
+    text-align: center;
+}
+
+/* Error and Success Message Alignment */
+.auth-error,
+.auth-message,
+.error-message {
+    text-align: center;
+    margin: var(--space-3) 0;
+}
+
+/* Milestone Container Alignment */
+.milestone-container {
+    margin-top: var(--space-4);
+    text-align: left;
+}
+
+.milestone-container label {
+    text-align: left;
+    margin-bottom: var(--space-3);
+}
+
+.milestone-input-group {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    align-items: center;
+}
+
+/* Add/Remove Button Alignment */
+.add-milestone-btn,
+.add-kr-btn {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+/* Close Button Position Fix */
+.modal-close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 10;
 } 

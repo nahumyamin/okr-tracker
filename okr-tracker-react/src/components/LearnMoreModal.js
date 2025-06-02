@@ -38,7 +38,7 @@ function LearnMoreModal({ onClose }) {
             </ul>
 
             <h3>Example OKR</h3>
-            <div style={{ background: 'var(--neutral-100)', padding: 'var(--space-4)', borderRadius: 'var(--radius-lg)', marginTop: 'var(--space-4)' }}>
+            <div className="example-okr">
               <strong>Objective:</strong> Launch an amazing mobile app<br />
               <strong>Key Results:</strong>
               <ul style={{ marginTop: 'var(--space-2)' }}>
