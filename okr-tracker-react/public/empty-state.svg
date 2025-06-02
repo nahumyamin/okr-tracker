@@ -1,0 +1,29 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#f8fafc"/>
+  
+  <!-- Empty clipboard -->
+  <rect x="60" y="40" width="80" height="100" fill="white" stroke="#e2e8f0" stroke-width="2" rx="4"/>
+  <rect x="85" y="30" width="30" height="20" fill="#e2e8f0" rx="4"/>
+  
+  <!-- Checkboxes (empty) -->
+  <rect x="75" y="60" width="12" height="12" fill="white" stroke="#cbd5e1" stroke-width="1.5" rx="2"/>
+  <rect x="75" y="80" width="12" height="12" fill="white" stroke="#cbd5e1" stroke-width="1.5" rx="2"/>
+  <rect x="75" y="100" width="12" height="12" fill="white" stroke="#cbd5e1" stroke-width="1.5" rx="2"/>
+  
+  <!-- Lines representing text -->
+  <rect x="95" y="62" width="35" height="2" fill="#e2e8f0" rx="1"/>
+  <rect x="95" y="66" width="25" height="2" fill="#e2e8f0" rx="1"/>
+  <rect x="95" y="82" width="40" height="2" fill="#e2e8f0" rx="1"/>
+  <rect x="95" y="86" width="20" height="2" fill="#e2e8f0" rx="1"/>
+  <rect x="95" y="102" width="30" height="2" fill="#e2e8f0" rx="1"/>
+  <rect x="95" y="106" width="35" height="2" fill="#e2e8f0" rx="1"/>
+  
+  <!-- Floating plus icon -->
+  <circle cx="140" cy="120" r="12" fill="#0ea5e9"/>
+  <path d="M134 120 L146 120 M140 114 L140 126" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Text -->
+  <text x="100" y="170" text-anchor="middle" fill="#94a3b8" font-family="Arial" font-size="12" font-weight="500">
+    Ready to get started?
+  </text>
+</svg> 
