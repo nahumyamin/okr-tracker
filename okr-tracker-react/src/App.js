@@ -62,7 +62,7 @@ function App() {
 
     return (
         <Router>
-            <div className="app">
+            <div className="app page-container">
                 <Navigation 
                     user={user}
                     theme={theme}
@@ -72,18 +72,20 @@ function App() {
                 />
                 
                 <main className="main-content">
-                    <Routes>
-                        <Route 
-                            path="/" 
-                            element={
-                                <HomePage 
-                                    onLearnMore={() => setShowLearnMoreModal(true)}
-                                />
-                            } 
-                        />
-                        <Route path="/okrs" element={<OKRPage />} />
-                        <Route path="/about" element={<AboutPage />} />
-                    </Routes>
+                    <div className="container">
+                        <Routes>
+                            <Route 
+                                path="/" 
+                                element={
+                                    <HomePage 
+                                        onLearnMore={() => setShowLearnMoreModal(true)}
+                                    />
+                                } 
+                            />
+                            <Route path="/okrs" element={<OKRPage />} />
+                            <Route path="/about" element={<AboutPage />} />
+                        </Routes>
+                    </div>
                 </main>
 
                 {showLearnMoreModal && (

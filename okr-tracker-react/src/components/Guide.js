@@ -1,6 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Guide({ onCreateOKR, onLearnMore }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsExpanded(true); // Always expanded on desktop
+      } else {
+        setIsExpanded(false); // Collapsed by default on mobile
+      }
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const toggleExpanded = () => {
+    if (isMobile) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
   return (
     <div className="guide">
       <div className="guide-header">
@@ -8,9 +34,16 @@ function Guide({ onCreateOKR, onLearnMore }) {
           <i className="fas fa-lightbulb"></i>
           Getting Started
         </h3>
+        <button 
+          className="guide-toggle mobile-only"
+          onClick={toggleExpanded}
+          aria-label="Toggle guide"
+        >
+          <i className={`fas fa-chevron-down ${isExpanded ? 'expanded' : ''}`}></i>
+        </button>
       </div>
       
-      <div className="guide-content">
+      <div className={`guide-content ${isExpanded ? 'expanded' : ''}`}>
         <div className="guide-tip">
           <div className="tip-icon">
             <i className="fas fa-bullseye"></i>
@@ -52,7 +85,7 @@ function Guide({ onCreateOKR, onLearnMore }) {
         </div>
       </div>
 
-      <div className="guide-footer">
+      <div className={`guide-footer ${isExpanded ? 'expanded' : ''}`}>
         <button className="btn btn-secondary btn-block" onClick={onLearnMore}>
           <i className="fas fa-book"></i>
           Learn More About OKRs

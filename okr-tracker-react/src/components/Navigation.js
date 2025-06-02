@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
 
@@ -20,13 +21,32 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
     };
   }, []);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleUserDropdown = () => {
     setUserDropdownOpen(!userDropdownOpen);
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   const handleSignOut = () => {
     setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
     onSignOut();
+  };
+
+  const handleMobileAuth = () => {
+    setMobileMenuOpen(false);
+    onShowAuth();
+  };
+
+  const handleMobileThemeToggle = () => {
+    onToggleTheme();
   };
 
   return (
@@ -38,7 +58,8 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
             OKR Tracker
           </Link>
           
-          <div className="nav-actions">
+          {/* Desktop Navigation */}
+          <div className="nav-actions desktop-nav">
             <Link 
               to="/okrs" 
               className={`nav-link ${location.pathname === '/okrs' ? 'active' : ''}`}
@@ -102,8 +123,99 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
               </button>
             )}
           </div>
+
+          {/* Mobile Hamburger Button */}
+          <button 
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            <div className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay">
+          <div className="mobile-menu-content">
+            <div className="mobile-menu-header">
+              <Link to="/" className="mobile-nav-brand" onClick={() => setMobileMenuOpen(false)}>
+                <i className="fas fa-bullseye"></i>
+                OKR Tracker
+              </Link>
+              <button 
+                className="mobile-menu-close"
+                onClick={toggleMobileMenu}
+                aria-label="Close mobile menu"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            
+            <div className="mobile-menu-items">
+              <Link 
+                to="/okrs" 
+                className={`mobile-nav-link ${location.pathname === '/okrs' ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                My OKRs
+              </Link>
+              
+              <Link 
+                to="/about" 
+                className={`mobile-nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              
+              <div className="mobile-menu-divider"></div>
+              
+              <button
+                className="mobile-nav-button"
+                onClick={handleMobileThemeToggle}
+              >
+                <i className={`fas fa-${theme === 'dark' ? 'sun' : 'moon'}`}></i>
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
+              
+              {user ? (
+                <div className="mobile-user-section">
+                  <div className="mobile-user-info">
+                    <div className="mobile-user-avatar">
+                      <i className="fas fa-user"></i>
+                    </div>
+                    <div className="mobile-user-details">
+                      <div className="mobile-user-email">{user.email}</div>
+                      <div className="mobile-user-status">Signed in</div>
+                    </div>
+                  </div>
+                  <button 
+                    className="mobile-nav-button mobile-sign-out"
+                    onClick={handleSignOut}
+                  >
+                    <i className="fas fa-sign-out-alt"></i>
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  className="mobile-nav-button mobile-sign-in"
+                  onClick={handleMobileAuth}
+                >
+                  <i className="fas fa-sign-in-alt"></i>
+                  Sign In
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
