@@ -9,10 +9,9 @@ function HomePage({ onLearnMore }) {
                 <div className="container">
                     <div className="hero-content">
                         <div className="hero-text">
-                            <h1>Track Your Goals with Precision</h1>
+                            <h1>Stay Focused. Hit Your Goals.</h1>
                             <p>
-                                Set ambitious objectives, define measurable key results, and watch your progress unfold. 
-                                Our OKR tracker helps you stay focused on what matters most.
+                                This is a lightweight OKR tracker I built to help you (and me) stay sharp on what really matters. Set clear objectives, track key results, and keep your progress visible — without the extra noise.
                             </p>
                             <div className="hero-actions">
                                 <Link to="/okrs" className="btn btn-primary btn-lg">
