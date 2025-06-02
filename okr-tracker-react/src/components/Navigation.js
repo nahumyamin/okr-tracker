@@ -34,7 +34,7 @@ function Navigation({ user, theme, onToggleTheme, onShowAuth, onSignOut }) {
       <div className="container">
         <div className="nav-content">
           <Link to="/" className="nav-brand">
-            <i className="fas fa-target"></i>
+            <i className="fas fa-bullseye"></i>
             OKR Tracker
           </Link>
           

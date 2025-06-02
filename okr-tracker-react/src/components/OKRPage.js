@@ -158,6 +158,24 @@ function OKRPage() {
         }
     };
 
+    const uncompleteOKR = async (okrId) => {
+        try {
+            const { error } = await supabase
+                .from('okrs')
+                .update({ 
+                    completed: false,
+                    completed_at: null
+                })
+                .eq('id', okrId);
+
+            if (error) throw error;
+
+            loadOKRs();
+        } catch (error) {
+            console.error('Error marking OKR incomplete:', error);
+        }
+    };
+
     const deleteOKR = async (okrId) => {
         try {
             // Check if it's a completed OKR
@@ -396,6 +414,13 @@ function OKRPage() {
                                                         <i className="fas fa-trophy"></i>
                                                         Completed
                                                     </div>
+                                                    <button 
+                                                        className="btn btn-icon"
+                                                        onClick={() => uncompleteOKR(okr.id)}
+                                                        title="Mark as incomplete"
+                                                    >
+                                                        <i className="fas fa-undo"></i>
+                                                    </button>
                                                     <button 
                                                         className="btn btn-icon btn-danger completed-delete-btn"
                                                         onClick={() => {

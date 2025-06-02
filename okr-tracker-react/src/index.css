@@ -303,6 +303,11 @@ body {
     background: transparent;
     color: var(--text-secondary);
     border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-icon:hover {

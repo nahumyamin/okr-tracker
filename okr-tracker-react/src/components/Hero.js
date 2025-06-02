@@ -13,7 +13,7 @@ function Hero({ onCreateOKR, onLearnMore }) {
               with a structured approach to goal setting.
             </p>
             <div className="hero-actions">
-              <button className="btn btn-primary btn-lg" onClick={onCreateOKR}>
+              <button className="btn btn-primary btn-lg hero-shimmer" onClick={onCreateOKR}>
                 <i className="fas fa-plus"></i>
                 Create Your First OKR
               </button>

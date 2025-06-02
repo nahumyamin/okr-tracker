@@ -24,6 +24,11 @@
     padding-bottom: var(--space-8);
 }
 
+/* Navigation brand icon color */
+.nav-brand i {
+    color: var(--primary-500);
+}
+
 /* Navigation active state */
 .nav-actions .btn.active {
     background: var(--primary-100);
@@ -84,6 +89,46 @@
         left: 100%;
         opacity: 0;
     }
+}
+
+/* Hero Button Shimmer Effect */
+.hero-shimmer {
+    position: relative;
+    overflow: hidden;
+    text-decoration: none !important;
+}
+
+.hero-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -200%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 30%,
+        rgba(255, 255, 255, 0.3) 42%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.3) 58%,
+        transparent 70%,
+        transparent 100%
+    );
+    animation: heroShimmer 4s ease-in-out 2;
+    z-index: 1;
+}
+
+.hero-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: none;
+    pointer-events: none;
 }
 
 /* Animated Background Shapes - Lava Lamp Effect */
@@ -284,6 +329,10 @@
 .guide-footer {
     padding-top: var(--space-4);
     border-top: 1px solid var(--border);
+}
+
+.guide-footer .btn {
+    width: 100%;
 }
 
 /* OKR Section */
@@ -654,8 +703,8 @@
 
 .okr-item.completed {
     opacity: 0.8;
-    background: var(--success-50);
-    border-color: var(--success-200);
+    background: var(--neutral-50);
+    border-color: var(--neutral-200);
 }
 
 [data-theme="dark"] .okr-item.completed {
@@ -1454,6 +1503,11 @@
         width: 100%;
         box-sizing: border-box;
     }
+
+    .hero-image img {
+        width: 80%;
+        max-width: 300px;
+    }
 }
 
 /* Key Result Container Styles */
@@ -2232,4 +2286,22 @@
 .delete-modal-content .modal-body {
     height: auto;
     padding: var(--space-4) var(--space-6);
+}
+
+/* Create OKR Modal specific height increase (30% more than 650px = 845px) */
+.modal-content.create-okr-modal {
+    height: 845px;
+}
+
+.modal-content.create-okr-modal .modal-body {
+    height: calc(845px - 80px - 70px);
+}
+
+/* Add spacing between KRs in create OKR modal */
+.modal-content.create-okr-modal .kr-container {
+    margin-bottom: var(--space-6);
+}
+
+.modal-content.create-okr-modal .kr-item {
+    margin-bottom: var(--space-8);
 } 

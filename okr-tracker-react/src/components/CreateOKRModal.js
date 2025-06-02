@@ -170,7 +170,7 @@ function CreateOKRModal({ onClose, onOKRCreated, user }) {
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target.classList.contains('modal-overlay') && onClose()}>
-      <div className="modal-content">
+      <div className="modal-content create-okr-modal">
         <div className="modal-header">
           <h2>
             <i className="fas fa-plus-circle"></i>

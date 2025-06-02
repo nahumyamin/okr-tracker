@@ -53,7 +53,7 @@ function Guide({ onCreateOKR, onLearnMore }) {
       </div>
 
       <div className="guide-footer">
-        <button className="btn btn-secondary" onClick={onLearnMore}>
+        <button className="btn btn-secondary btn-block" onClick={onLearnMore}>
           <i className="fas fa-book"></i>
           Learn More About OKRs
         </button>
