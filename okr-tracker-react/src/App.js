@@ -5,6 +5,7 @@ import OKRPage from './components/OKRPage';
 import LearnMoreModal from './components/LearnMoreModal';
 import AuthModal from './components/AuthModal';
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import { supabase } from './supabaseClient';
 import './components.css';
 
@@ -96,6 +97,7 @@ function App() {
                     />
                 )}
             </div>
+            <Footer />
         </Router>
     );
 }

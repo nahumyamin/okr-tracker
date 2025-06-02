@@ -5,6 +5,7 @@ import AuthModal from './AuthModal';
 import LearnMoreModal from './LearnMoreModal';
 import CompletionOverlay from './CompletionOverlay';
 import DeleteModal from './DeleteModal';
+import StatsSection from './StatsSection';
 import { supabase } from '../supabaseClient';
 
 function OKRPage() {
@@ -272,128 +273,134 @@ function OKRPage() {
                         onCreateOKR={() => setShowCreateModal(true)} 
                         onLearnMore={() => setShowLearnMoreModal(true)}
                     />
-                    <div className="okr-section">
-                        <div className="okr-header">
-                            <h2>My OKRs</h2>
-                            <button 
-                                className="btn btn-primary"
-                                onClick={() => setShowCreateModal(true)}
-                            >
-                                <i className="fas fa-plus"></i>
-                                Create OKR
-                            </button>
-                        </div>
-
-                        {okrs.length === 0 ? (
-                            <div className="empty-state">
-                                <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
-                                <h3>Ready to set your first OKR?</h3>
-                                <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
+                    <div className="okr-main-content">
+                        <StatsSection 
+                            activeOKRs={okrs}
+                            completedOKRs={completedOKRs}
+                        />
+                        <div className="okr-section">
+                            <div className="okr-header">
+                                <h2>My OKRs</h2>
                                 <button 
-                                    className="btn btn-primary btn-lg"
+                                    className="btn btn-primary"
                                     onClick={() => setShowCreateModal(true)}
                                 >
                                     <i className="fas fa-plus"></i>
-                                    Get Started
+                                    Create OKR
                                 </button>
                             </div>
-                        ) : (
-                            <div className="okr-list">
-                                {okrs.map((okr) => {
-                                    const totalProgress = okr.key_results.reduce((sum, kr) => sum + kr.progress, 0);
-                                    const averageProgress = Math.round(totalProgress / okr.key_results.length);
 
-                                    return (
-                                        <div key={okr.id} className="okr-item">
-                                            <div className="okr-header">
-                                                <h3>{okr.objective}</h3>
-                                                <div className="progress-circle">
-                                                    <svg viewBox="0 0 36 36">
-                                                        <path
-                                                            className="progress-bg"
-                                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                            fill="none"
-                                                            strokeWidth="2"
-                                                        />
-                                                        <path
-                                                            className="progress"
-                                                            strokeDasharray={`${averageProgress}, 100`}
-                                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                            fill="none"
-                                                            strokeWidth="2"
-                                                        />
-                                                    </svg>
-                                                    <div className="progress-text">{averageProgress}%</div>
+                            {okrs.length === 0 ? (
+                                <div className="empty-state">
+                                    <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
+                                    <h3>Ready to set your first OKR?</h3>
+                                    <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
+                                    <button 
+                                        className="btn btn-primary btn-lg"
+                                        onClick={() => setShowCreateModal(true)}
+                                    >
+                                        <i className="fas fa-plus"></i>
+                                        Get Started
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="okr-list">
+                                    {okrs.map((okr) => {
+                                        const totalProgress = okr.key_results.reduce((sum, kr) => sum + kr.progress, 0);
+                                        const averageProgress = Math.round(totalProgress / okr.key_results.length);
+
+                                        return (
+                                            <div key={okr.id} className="okr-item">
+                                                <div className="okr-header">
+                                                    <h3>{okr.objective}</h3>
+                                                    <div className="progress-circle">
+                                                        <svg viewBox="0 0 36 36">
+                                                            <path
+                                                                className="progress-bg"
+                                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                                fill="none"
+                                                                strokeWidth="2"
+                                                            />
+                                                            <path
+                                                                className="progress"
+                                                                strokeDasharray={`${averageProgress}, 100`}
+                                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                                fill="none"
+                                                                strokeWidth="2"
+                                                            />
+                                                        </svg>
+                                                        <div className="progress-text">{averageProgress}%</div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="key-results">
+                                                    {okr.key_results.map((kr, krIndex) => (
+                                                        <div key={krIndex} className="kr-item">
+                                                            <div className="kr-header">
+                                                                <div className="kr-text">{kr.text}</div>
+                                                                <div className="kr-progress">{kr.progress}%</div>
+                                                            </div>
+                                                            
+                                                            {kr.type === 'percentage' ? (
+                                                                <input
+                                                                    type="range"
+                                                                    min="0"
+                                                                    max="100"
+                                                                    value={kr.progress}
+                                                                    onChange={(e) => updateKRProgress(okr.id, krIndex, parseInt(e.target.value))}
+                                                                    className="progress-slider"
+                                                                    style={{'--value': `${kr.progress}%`}}
+                                                                />
+                                                            ) : (
+                                                                <div className="milestone-tasks">
+                                                                    <div className="milestone-list">
+                                                                        {kr.milestones.map((milestone, milestoneIndex) => (
+                                                                            <div 
+                                                                                key={milestoneIndex} 
+                                                                                className={`milestone-item ${milestone.completed ? 'completed' : ''}`}
+                                                                            >
+                                                                                <div 
+                                                                                    className="milestone-checkbox"
+                                                                                    onClick={() => toggleMilestone(okr.id, krIndex, milestoneIndex)}
+                                                                                >
+                                                                                    <i className="fas fa-check"></i>
+                                                                                </div>
+                                                                                <div className="milestone-text">{milestone.text}</div>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                <div className="okr-actions">
+                                                    {averageProgress === 100 && (
+                                                        <button 
+                                                            className="btn btn-primary"
+                                                            onClick={() => markOKRComplete(okr.id)}
+                                                        >
+                                                            <i className="fas fa-trophy"></i>
+                                                            Mark as Complete
+                                                        </button>
+                                                    )}
+                                                    <button 
+                                                        className="btn-text btn-text-danger"
+                                                        onClick={() => {
+                                                            setOkrToDelete(okr.id);
+                                                            setShowDeleteModal(true);
+                                                        }}
+                                                    >
+                                                        Delete OKR
+                                                    </button>
                                                 </div>
                                             </div>
-
-                                            <div className="key-results">
-                                                {okr.key_results.map((kr, krIndex) => (
-                                                    <div key={krIndex} className="kr-item">
-                                                        <div className="kr-header">
-                                                            <div className="kr-text">{kr.text}</div>
-                                                            <div className="kr-progress">{kr.progress}%</div>
-                                                        </div>
-                                                        
-                                                        {kr.type === 'percentage' ? (
-                                                            <input
-                                                                type="range"
-                                                                min="0"
-                                                                max="100"
-                                                                value={kr.progress}
-                                                                onChange={(e) => updateKRProgress(okr.id, krIndex, parseInt(e.target.value))}
-                                                                className="progress-slider"
-                                                                style={{'--value': `${kr.progress}%`}}
-                                                            />
-                                                        ) : (
-                                                            <div className="milestone-tasks">
-                                                                <div className="milestone-list">
-                                                                    {kr.milestones.map((milestone, milestoneIndex) => (
-                                                                        <div 
-                                                                            key={milestoneIndex} 
-                                                                            className={`milestone-item ${milestone.completed ? 'completed' : ''}`}
-                                                                        >
-                                                                            <div 
-                                                                                className="milestone-checkbox"
-                                                                                onClick={() => toggleMilestone(okr.id, krIndex, milestoneIndex)}
-                                                                            >
-                                                                                <i className="fas fa-check"></i>
-                                                                            </div>
-                                                                            <div className="milestone-text">{milestone.text}</div>
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                ))}
-                                            </div>
-
-                                            <div className="okr-actions">
-                                                {averageProgress === 100 && (
-                                                    <button 
-                                                        className="btn btn-primary"
-                                                        onClick={() => markOKRComplete(okr.id)}
-                                                    >
-                                                        <i className="fas fa-trophy"></i>
-                                                        Mark as Complete
-                                                    </button>
-                                                )}
-                                                <button 
-                                                    className="btn-text btn-text-danger"
-                                                    onClick={() => {
-                                                        setOkrToDelete(okr.id);
-                                                        setShowDeleteModal(true);
-                                                    }}
-                                                >
-                                                    Delete OKR
-                                                </button>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
