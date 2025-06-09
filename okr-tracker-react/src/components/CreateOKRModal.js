@@ -195,11 +195,11 @@ function CreateOKRModal({ editingOKR, onClose, onOKRCreated, user }) {
         okrData.user_id = user.id;
         okrData.completed = false;
 
-        const { error } = await supabase
-          .from('okrs')
-          .insert([okrData]);
+      const { error } = await supabase
+        .from('okrs')
+        .insert([okrData]);
 
-        if (error) throw error;
+      if (error) throw error;
       }
 
       onOKRCreated();

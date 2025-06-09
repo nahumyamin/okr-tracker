@@ -206,7 +206,7 @@ function OKRPage() {
     if (isLoading) {
         return (
             <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <div>Loading...</div>
+                    <div>Loading...</div>
             </div>
         );
     }
@@ -214,33 +214,33 @@ function OKRPage() {
     if (!user) {
         return (
             <div className="okr-page-container">
-                <div className="content-layout">
-                    <Guide 
-                        onCreateOKR={() => setShowAuthModal(true)} 
-                        onLearnMore={() => setShowLearnMoreModal(true)}
-                    />
-                    <div className="okr-section">
-                        <div className="okr-header">
-                            <h2>My OKRs</h2>
-                            <button 
-                                className="btn btn-primary"
-                                onClick={() => setShowAuthModal(true)}
-                            >
-                                <i className="fas fa-plus"></i>
-                                Create OKR
-                            </button>
-                        </div>
-                        <div className="empty-state">
-                            <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
-                            <h3>Ready to set your first OKR?</h3>
-                            <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
-                            <button 
-                                className="btn btn-primary btn-lg"
-                                onClick={() => setShowAuthModal(true)}
-                            >
-                                <i className="fas fa-plus"></i>
-                                Get Started
-                            </button>
+                    <div className="content-layout">
+                        <Guide 
+                            onCreateOKR={() => setShowAuthModal(true)} 
+                            onLearnMore={() => setShowLearnMoreModal(true)}
+                        />
+                        <div className="okr-section">
+                            <div className="okr-header">
+                                <h2>My OKRs</h2>
+                                <button 
+                                    className="btn btn-primary"
+                                    onClick={() => setShowAuthModal(true)}
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    Create OKR
+                                </button>
+                            </div>
+                            <div className="empty-state">
+                                <img src="https://cdn.jsdelivr.net/gh/nahumyamin/okr-tracker-assets/9ba4849b-05fa-4e50-8fa9-e44e77ea2559.png" alt="No OKRs yet" />
+                                <h3>Ready to set your first OKR?</h3>
+                                <p>Create objectives with measurable key results to track your progress and achieve your goals.</p>
+                                <button 
+                                    className="btn btn-primary btn-lg"
+                                    onClick={() => setShowAuthModal(true)}
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    Get Started
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -265,10 +265,10 @@ function OKRPage() {
 
     return (
         <div className="okr-page-container">
-            <div className="content-layout">
-                <Guide 
-                    onCreateOKR={() => setShowCreateModal(true)} 
-                    onLearnMore={() => setShowLearnMoreModal(true)}
+                <div className="content-layout">
+                    <Guide 
+                        onCreateOKR={() => setShowCreateModal(true)} 
+                        onLearnMore={() => setShowLearnMoreModal(true)}
                 />
                 <div className="okr-main-content">
                     <StatsSection 
@@ -373,15 +373,15 @@ function OKRPage() {
                                             </div>
 
                                             <div className="okr-actions">
-                                                {averageProgress === 100 && (
-                                                    <button 
-                                                        className="btn btn-primary"
-                                                        onClick={() => markOKRComplete(okr.id)}
-                                                    >
-                                                        <i className="fas fa-trophy"></i>
-                                                        Mark as Complete
-                                                    </button>
-                                                )}
+                                            {averageProgress === 100 && (
+                                                <button 
+                                                    className="btn btn-primary"
+                                                    onClick={() => markOKRComplete(okr.id)}
+                                                >
+                                                    <i className="fas fa-trophy"></i>
+                                                    Mark as Complete
+                                                </button>
+                                            )}
                                                 <button 
                                                     className="btn-text"
                                                     onClick={() => setEditingOKR(okr)}
@@ -389,15 +389,15 @@ function OKRPage() {
                                                     <i className="fas fa-edit"></i>
                                                     Edit OKR
                                                 </button>
-                                                <button 
+                                            <button 
                                                     className="btn-text btn-text-danger"
                                                     onClick={() => {
                                                         setOkrToDelete(okr.id);
                                                         setShowDeleteModal(true);
-                                                    }}
-                                                >
+                                                }}
+                                            >
                                                     Delete OKR
-                                                </button>
+                                            </button>
                                             </div>
                                         </div>
                                     );
@@ -405,26 +405,26 @@ function OKRPage() {
                             </div>
                         )}
                     </div>
+                    </div>
                 </div>
-            </div>
 
-            {/* Completed OKRs Section */}
-            {completedOKRs.length > 0 && (
-                <div className="completed-okrs-layout">
-                    <div></div>
-                    <div className="completed-okrs-section">
-                        <h2 className="completed-section-title">Completed OKRs</h2>
-                        <div className="completed-okrs-list">
-                            {completedOKRs.map((okr) => (
-                                <div key={okr.id} className="okr-item completed">
-                                    <div className="completed-okr-content">
-                                        <div className="completed-okr-header">
-                                            <h3>{okr.objective}</h3>
-                                            <div className="completed-okr-actions">
-                                                <div className="completed-badge">
-                                                    <i className="fas fa-trophy"></i>
-                                                    Completed
-                                                </div>
+                {/* Completed OKRs Section */}
+                {completedOKRs.length > 0 && (
+                    <div className="completed-okrs-layout">
+                        <div></div>
+                        <div className="completed-okrs-section">
+                            <h2 className="completed-section-title">Completed OKRs</h2>
+                            <div className="completed-okrs-list">
+                                {completedOKRs.map((okr) => (
+                                    <div key={okr.id} className="okr-item completed">
+                                        <div className="completed-okr-content">
+                                            <div className="completed-okr-header">
+                                                <h3>{okr.objective}</h3>
+                                                <div className="completed-okr-actions">
+                                                    <div className="completed-badge">
+                                                        <i className="fas fa-trophy"></i>
+                                                        Completed
+                                                    </div>
                                                 <button 
                                                     className="btn btn-icon"
                                                     onClick={() => uncompleteOKR(okr.id)}
@@ -432,30 +432,30 @@ function OKRPage() {
                                                 >
                                                     <i className="fas fa-undo"></i>
                                                 </button>
-                                                <button 
-                                                    className="btn btn-icon btn-danger completed-delete-btn"
+                                                    <button 
+                                                        className="btn btn-icon btn-danger completed-delete-btn"
                                                     onClick={() => {
                                                         setOkrToDelete(okr.id);
                                                         setShowDeleteModal(true);
                                                     }}
-                                                >
-                                                    <i className="fas fa-trash"></i>
-                                                </button>
+                                                    >
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="completed-details">
+                                                {okr.key_results.length} key results completed
+                                            </div>
+                                            <div className="completed-date">
+                                                Completed on {new Date(okr.completed_at).toLocaleDateString()}
                                             </div>
                                         </div>
-                                        <div className="completed-details">
-                                            {okr.key_results.length} key results completed
-                                        </div>
-                                        <div className="completed-date">
-                                            Completed on {new Date(okr.completed_at).toLocaleDateString()}
-                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
             {(showCreateModal || editingOKR) && (
                 <CreateOKRModal 
@@ -500,4 +500,4 @@ function OKRPage() {
     );
 }
 
-export default OKRPage;
+export default OKRPage; 

@@ -1,20 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import OKRPage from './components/OKRPage';
-import AboutPage from './components/AboutPage';
 import LearnMoreModal from './components/LearnMoreModal';
 import AuthModal from './components/AuthModal';
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
 import { supabase } from './supabaseClient';
 import './components.css';
+
+function Navigation({ user, onSignOut, onSignIn }) {
+    const location = useLocation();
+
+    return (
+        <nav className="nav">
+            <div className="container">
+                <div className="nav-content">
+                    <Link to="/" className="nav-brand">
+                        <i className="fas fa-target"></i>
+                        OKR Tracker
+                    </Link>
+                    
+                    <div className="nav-actions">
+                        <Link 
+                            to="/okrs" 
+                            className={`btn btn-secondary ${location.pathname === '/okrs' ? 'active' : ''}`}
+                        >
+                            <i className="fas fa-clipboard-list"></i>
+                            My OKRs
+                        </Link>
+                        
+                        <button className="btn btn-icon" id="theme-toggle">
+                            <i className="fas fa-moon"></i>
+                        </button>
+                        
+                        {user ? (
+                            <>
+                                <div className="user-info">
+                                    <span>{user.email}</span>
+                                </div>
+                                <button 
+                                    className="btn btn-secondary"
+                                    onClick={onSignOut}
+                                >
+                                    <i className="fas fa-sign-out-alt"></i>
+                                    Sign Out
+                                </button>
+                            </>
+                        ) : (
+                            <button 
+                                className="btn btn-primary"
+                                onClick={onSignIn}
+                            >
+                                <i className="fas fa-sign-in-alt"></i>
+                                Sign In
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    );
+}
 
 function App() {
     const [user, setUser] = useState(null);
     const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [theme, setTheme] = useState('light');
 
     useEffect(() => {
         // Check initial auth status
@@ -37,38 +87,55 @@ function App() {
         return () => subscription.unsubscribe();
     }, []);
 
-    // Theme functionality
+    // Theme toggle functionality
     useEffect(() => {
+        const themeToggle = document.getElementById('theme-toggle');
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
         const currentTheme = localStorage.getItem('theme') || 
                            (prefersDarkScheme.matches ? 'dark' : 'light');
         
-        setTheme(currentTheme);
         document.documentElement.setAttribute('data-theme', currentTheme);
-    }, []);
+        
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
 
-    const handleToggleTheme = () => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    };
+            const handleThemeToggle = () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            };
+
+            themeToggle.addEventListener('click', handleThemeToggle);
+            
+            return () => {
+                themeToggle.removeEventListener('click', handleThemeToggle);
+            };
+        }
+    });
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         setUser(null);
-        window.location.reload();
     };
 
     return (
         <Router>
-            <div className="app page-container">
+            <div className="app">
                 <Navigation 
                     user={user}
-                    theme={theme}
-                    onToggleTheme={handleToggleTheme}
-                    onShowAuth={() => setShowAuthModal(true)}
                     onSignOut={handleSignOut}
+                    onSignIn={() => setShowAuthModal(true)}
                 />
                 
                 <main className="main-content">
@@ -81,22 +148,7 @@ function App() {
                                 />
                             } 
                         />
-                        <Route 
-                            path="/okrs" 
-                            element={
-                                <div className="container">
-                                    <OKRPage />
-                                </div>
-                            } 
-                        />
-                        <Route 
-                            path="/about" 
-                            element={
-                                <div className="container">
-                                    <AboutPage />
-                                </div>
-                            } 
-                        />
+                        <Route path="/okrs" element={<OKRPage />} />
                     </Routes>
                 </main>
 
@@ -110,12 +162,10 @@ function App() {
                         onAuthSuccess={(user) => {
                             setUser(user);
                             setShowAuthModal(false);
-                            window.location.reload();
                         }}
                     />
                 )}
             </div>
-            <Footer />
         </Router>
     );
 }
